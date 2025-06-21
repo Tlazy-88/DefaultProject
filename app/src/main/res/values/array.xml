@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--List ngôn ngữ-->
+    <string-array name="language_names">
+        <item>English</item>
+        <item>Tiếng Việt</item>
+        <item>Français</item>
+    </string-array>
+    <string-array name="language_codes">
+        <item>en</item>
+        <item>vi</item>
+        <item>fr</item>
+    </string-array>
+
+
+</resources>

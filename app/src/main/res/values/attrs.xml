@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <!-- ✨Color Application Theme -->
+    <attr name="colorApp" format="color" />
+
+    <!-- Custom Color Attributes -->
+    <attr name="colorTextView" format="color" />
+    <attr name="colorError" format="color" />
+    <attr name="colorSuccess" format="color" />
+    <attr name="colorWarning" format="color" />
+
+
+</resources>

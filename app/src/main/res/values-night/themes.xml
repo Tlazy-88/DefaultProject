@@ -1,0 +1,32 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.MyApplication" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your dark theme here. -->
+        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    </style>
+
+
+    <!--📍 `Thêm custom style theme cho dark và light mode`-->
+    <style name="DefaultTheme" parent="Theme.Material3.DayNight">
+        <!-- ✨Màu của thanh trạng thái (status bar) -->
+        <item name="android:statusBarColor">@color/black</item>
+
+        <!-- ✨Màu của thanh điều hướng (navigation bar) -->
+        <item name="android:navigationBarColor">@color/black</item>
+
+        <!-- ✨Nền ứng dụng -->
+        <item name="android:windowBackground">@color/black</item>
+
+
+        <!-- Color Application Theme - phải nên trùng với các màu ✨ để dễ tùy chỉnh -->
+        <item name="colorApp">@color/black</item>
+
+
+        <!-- Custom Color Attributes -->
+        <item name="colorTextView">@color/white</item>
+        <item name="colorError">#EF5350</item>
+        <item name="colorSuccess">@color/blue</item>
+        <item name="colorWarning">@color/magenta</item>
+    </style>
+
+</resources>

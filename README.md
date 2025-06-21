@@ -1,0 +1,1 @@
+#Small default step to setup an android project
