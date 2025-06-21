@@ -35,7 +35,7 @@ fun applyTheme(themeMode: Int= THEME_SYSTEM) {
     }
 }
 
-/**Đây là dark mode theo user muốn**/
+
 fun Context.isDarkModeAppPrefs(): Boolean {
     return when (getAppPrefsTheme()) {
         THEME_DARK -> true
@@ -48,12 +48,13 @@ fun Context.isDarkModeAppPrefs(): Boolean {
     }
 }
 
-/**Đây là dark mode theo device**/
+
 fun Context.isDarkTheme(): Boolean {
     val nightModeFlags = resources.configuration.uiMode and
             Configuration.UI_MODE_NIGHT_MASK
     return nightModeFlags == Configuration.UI_MODE_NIGHT_YES
 }
+
 
 fun Context.getThemeColor(@AttrRes attrRes: Int): Int {
     val typedValue = TypedValue()

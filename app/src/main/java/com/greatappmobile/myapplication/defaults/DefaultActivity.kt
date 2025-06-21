@@ -1,21 +1,32 @@
 package com.greatappmobile.myapplication.defaults
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
+import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.LocaleList
 import android.util.Log
+import android.view.View
+import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import java.util.*
 import androidx.core.content.edit
+import androidx.core.graphics.toColorInt
+import androidx.lifecycle.lifecycleScope
 import com.greatappmobile.myapplication.R
+import com.greatappmobile.myapplication.dialogs.AppDialogBuilder
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 open class DefaultActivity : AppCompatActivity() {
 
@@ -62,6 +73,33 @@ open class DefaultActivity : AppCompatActivity() {
         }
     }
 
+    private fun createGradientDrawableBackground(
+        colors: IntArray = intArrayOf(
+            "#B6BFB4".toColorInt(),
+            "#25C825".toColorInt()
+        ),
+        orientation: GradientDrawable.Orientation = GradientDrawable.Orientation.BOTTOM_TOP,
+        topLeftRadius: Float = 24f,
+        topRightRadius: Float = 24f,
+        bottomRightRadius: Float = 24f,
+        bottomLeftRadius: Float = 24f
+    ): GradientDrawable {
+        return GradientDrawable(orientation, colors).apply {
+
+            //màu
+            shape = GradientDrawable.RECTANGLE
+
+            //corner
+            cornerRadii = floatArrayOf(
+                topLeftRadius, topLeftRadius,
+                topRightRadius, topRightRadius,
+                bottomRightRadius, bottomRightRadius,
+                bottomLeftRadius, bottomLeftRadius
+            )
+
+        }
+    }
+
     internal fun showLocaleDialog() {
         val languages = this.resources.getStringArray(R.array.language_names)
         val localeCodes = this.resources.getStringArray(R.array.language_codes)
@@ -69,17 +107,51 @@ open class DefaultActivity : AppCompatActivity() {
         val currentLangCode = Locale.getDefault().language
         val selectedIndex = localeCodes.indexOf(currentLangCode).takeIf { it >= 0 } ?: 0
 
-        AlertDialog.Builder(this)
-            .setTitle("Chọn ngôn ngữ")
-            .setSingleChoiceItems(languages, selectedIndex) { dialog, which ->
-                val selectedLangCode = localeCodes[which]
-                saveLocale(this, selectedLangCode)
-                recreate()
-                dialog.dismiss()
+        AppDialogBuilder(this)
+            .setLayout(R.layout.dialog_locale_selector)
+            .onBindView { view, dialog ->
+                val rootView = view.findViewById<LinearLayout>(R.id.dialog_root)
+
+                //set background
+                val background = createGradientDrawableBackground()
+                rootView.background = background
+
+
+                val radioGroup = view.findViewById<RadioGroup>(R.id.lang_radio_group)
+                val btnOk = view.findViewById<Button>(R.id.btn_ok)
+                val btnCancel = view.findViewById<Button>(R.id.btn_cancel)
+
+                // Tạo RadioButton động cho từng ngôn ngữ
+                languages.forEachIndexed { index, language ->
+                    val radioButton = RadioButton(view.context).apply {
+                        text = language
+                        id = View.generateViewId()
+                        isChecked = index == selectedIndex
+                    }
+                    radioGroup.addView(radioButton)
+                }
+
+                btnOk.setOnClickListener {
+                    val checkedIndex = radioGroup.indexOfChild(
+                        radioGroup.findViewById(radioGroup.checkedRadioButtonId)
+                    ).takeIf { it >= 0 } ?: return@setOnClickListener
+
+                    val selectedLangCode = localeCodes[checkedIndex]
+                    saveLocale(this, selectedLangCode)
+                    dialog.dismiss()
+                    recreate()
+                }
+
+                btnCancel.setOnClickListener {
+                    dialog.dismiss()
+                }
+
             }
-            .setNegativeButton("Hủy", null)
+            .setCancelable(true)
+            .setWidthPercent(0.9f)
             .show()
     }
+
 
     internal fun setScreenOrientation(isPortrait: Boolean?= true){
         requestedOrientation= when(isPortrait){
@@ -117,9 +189,21 @@ open class DefaultActivity : AppCompatActivity() {
         Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
 
+    internal fun log(message: String, tag: String= "SSS"){
+        Log.d(tag, message)
+    }
+
+    protected val handler = CoroutineExceptionHandler { _, exception ->
+        Log.e("CoroutineError", "Caught $exception")
+        exception.printStackTrace()
+        lifecycleScope.launch(Dispatchers.Main) {
+            Toast.makeText(this@DefaultActivity, "Lỗi: ${exception.message}", Toast.LENGTH_LONG).show()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("SSS", "On Create App Default Activity")
+        log("On Create App Default Activity")
     }
 
     //end

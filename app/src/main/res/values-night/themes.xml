@@ -6,19 +6,21 @@
     </style>
 
 
-    <!--📍 `Thêm custom style theme cho dark và light mode`-->
+
     <style name="DefaultTheme" parent="Theme.Material3.DayNight">
-        <!-- ✨Màu của thanh trạng thái (status bar) -->
+
         <item name="android:statusBarColor">@color/black</item>
 
-        <!-- ✨Màu của thanh điều hướng (navigation bar) -->
         <item name="android:navigationBarColor">@color/black</item>
 
-        <!-- ✨Nền ứng dụng -->
         <item name="android:windowBackground">@color/black</item>
 
+        <item name="windowActionBar">false</item>
 
-        <!-- Color Application Theme - phải nên trùng với các màu ✨ để dễ tùy chỉnh -->
+        <item name="windowNoTitle">true</item>
+
+        <item name="android:windowFullscreen">true</item>
+
         <item name="colorApp">@color/black</item>
 
 

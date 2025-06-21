@@ -4,12 +4,13 @@ import android.content.Context
 import androidx.core.content.edit
 
 const val defaultSharedPreferencesName= "sharedPreferencesName"
+const val defValue= "null"
 
 fun <T> Context.getSharedPreference(key: String, type: Class<T>): T?{
     val sharedPreferencesObject = this.getSharedPreferences(defaultSharedPreferencesName, Context.MODE_PRIVATE)
     @Suppress("UNCHECKED_CAST")
     return when (type) {
-        String::class.java -> sharedPreferencesObject.getString(key, "nếu không có dữ liệu thì trả về defValue") as T
+        String::class.java -> sharedPreferencesObject.getString(key, defValue) as T
         Boolean::class.java -> java.lang.Boolean.valueOf(sharedPreferencesObject.getBoolean(key,false)) as T
         Float::class.java -> java.lang.Float.valueOf(sharedPreferencesObject.getFloat(key, 0f)) as T
         Int::class.java -> Integer.valueOf(sharedPreferencesObject.getInt(key, 0)) as T

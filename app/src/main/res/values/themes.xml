@@ -9,17 +9,19 @@
 
     <!--`Thêm custom style theme cho dark và light mode`-->
     <style name="DefaultTheme" parent="Theme.Material3.DayNight">
-        <!-- ✨Màu của thanh trạng thái (status bar) -->
+
         <item name="android:statusBarColor">#F2EDED</item>
 
-        <!-- ✨Màu của thanh điều hướng (navigation bar) -->
         <item name="android:navigationBarColor">#F2EDED</item>
 
-        <!-- ✨Nền ứng dụng -->
         <item name="android:windowBackground">@color/white</item>
 
+        <item name="windowActionBar">false</item>
 
-        <!-- Color Application Theme - phải nên trùng với các màu ✨ để dễ tùy chỉnh -->
+        <item name="windowNoTitle">true</item>
+
+        <item name="android:windowFullscreen">true</item>
+
         <item name="colorApp">@color/white</item>
 
         <!-- Custom Color Attributes -->
